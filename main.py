@@ -10,11 +10,20 @@ def que_color_es_la_flecha(x, y):
     pixel = pg.pixel(x, y)
     print(pixel)
 
+def buscar_tren(imagen):
+    try:
+        pos = pg.center(pg.locateOnScreen(imagen,confidence=0.9))
+        print(pos)
+        return pos
+    except:
+        print("error al buscar el tren")
+
 
 def menu():
     layout = [[sg.Button("Setear flecha", key="set_flecha")],
               [sg.Button("Empezar", key="start")],
               [sg.Button("Stop", key="stop")],
+              [sg.Button("Buscar Tren",key="tren")],
               [sg.Text("Color         ", key="color")]]
     window = sg.Window("Menu", layout)
     return window
@@ -26,6 +35,7 @@ def main():
     menu_window = menu()
     proceso = False
     tiempo = 0
+    tren_imagen_link="tren.png"
     while True:
         event, values = menu_window.read(timeout=34)
         if event == sg.WIN_CLOSED:
@@ -52,6 +62,9 @@ def main():
                 print("No seteaste la flecha pelotudo")
                 continue
             proceso = True
+
+        if event == "tren":
+            pg.click(buscar_tren(tren_imagen_link))
 
 
 if __name__ == '__main__':
